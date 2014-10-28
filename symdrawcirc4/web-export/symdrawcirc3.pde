@@ -1,5 +1,3 @@
-PGraphics pizza;
-
 color Cbackg, BL, YE, GR;
 
 PVector circle = new PVector();
@@ -23,11 +21,8 @@ int edding;
 
 
 void setup() {
-  size(800,700);
+  size(800,600);
   frameRate(50);
-  
-  pizza = createGraphics(width, height);
-  
   colorMode(HSB, 360, 100, 100);
   ellipseMode(RADIUS);
   
@@ -42,7 +37,7 @@ void setup() {
 }
 
 void draw() {
-  image(pizza, 0,0);
+  
   // draw
 }
 
@@ -170,7 +165,6 @@ void sym_setup( )
 
 void draw_all()
 {
-  
   draw_surface();
   
   // Draw Buttons
@@ -181,32 +175,29 @@ void draw_all()
   slider_draw();
   
   selector_draw();
-  
 }
 
 
 void draw_surface()
 {
 // Draw background and main circle.
-  pizza.beginDraw();
-  pizza.background(0);
-  pizza.strokeWeight(3);
-  pizza.fill(Cbackg);
-  pizza.stroke(0,0,90);
-  pizza.ellipse( circle.x, circle.y, circle_R, circle_R );
+  background(0);
+  strokeWeight(3);
+  fill(Cbackg);
+  stroke(0,0,90);
+  ellipse( circle.x, circle.y, circle_R, circle_R );
   
   //draw slices
   vec.set( 0, -circle_R);
-  pizza.stroke( hue(paint), saturation(paint)-30, brightness(paint)-30 );
+  stroke( hue(paint), saturation(paint)-30, brightness(paint)-30 );
   //stroke( paint);
-  pizza.strokeWeight(1);
+  strokeWeight(1);
   for( int a=0; a< slices; a ++)
   {
-    pizza.line( circle.x, circle.y, circle.x +vec.x, circle.y +vec.y );
+    line( circle.x, circle.y, circle.x +vec.x, circle.y +vec.y );
     //vec.rotate( 2*PI/ slices
     vec.set( manual_rotate( vec, 2*PI/ slices) );
   }
-  pizza.endDraw();
 }
 
 boolean is_on_canvas( int x, int y)
@@ -248,8 +239,6 @@ PVector manual_rotate(PVector vec, float theta) {
 
 PVector col_button = new PVector();
 int col_button_R;
-PVector bright_button = new PVector();
-PVector dark_button = new PVector();
 
 PVector white_button = new PVector();
 PVector black_button = new PVector();
@@ -264,15 +253,10 @@ PVector selector = new PVector();
 PVector selector_size = new PVector();
 boolean SELECTING;
 
-int bright, dark;
-
 void buttons_setup()
 {
   col_button_R = 40;
   col_button.set( width -col_button_R -15, height -col_button_R -15);
-  bright_button.set( col_button.x, col_button.y - col_button_R - 40 );
-  dark_button.set( col_button.x -col_button_R -40 , col_button.y );
-  
   
   clear_button_size.set( 30, 30);
   white_button.set( 15,15);
@@ -291,35 +275,31 @@ void buttons_setup()
   selector.set( width-90 , 15);
   selector_size.set( width - selector.x - 15, 100);
   SELECTING = false;
-  
-  bright = 110;
-  dark = 19;
 }
 
 void selector_draw()
 {
-  pizza.beginDraw();
   if( !SELECTING)
   {
-    pizza.stroke(0,0,100);
-    pizza.fill(0,0,0);
-    pizza.rect( selector.x, selector.y, selector_size.x, selector_size.y);
+    stroke(0,0,100);
+    fill(0,0,0);
+    rect( selector.x, selector.y, selector_size.x, selector_size.y);
     
-    pizza.textSize(15);
-    pizza.fill( 0,0,100);
-    pizza.text("Select color from Image", selector.x, selector.y, selector_size.x, selector_size.y);
+    textSize(15);
+    fill( 0,0,100);
+    text("Select color from Image", selector.x, selector.y, selector_size.x, selector_size.y);
   }
   else
   {
-    pizza.fill(0,0,100);
-    pizza.noStroke();
-    pizza.rect( selector.x, selector.y, selector_size.x, selector_size.y);
+    fill(0,0,100);
+    noStroke();
+    rect( selector.x, selector.y, selector_size.x, selector_size.y);
     
-    pizza.textSize(15);
-    pizza.fill( 0,0,0);
-    pizza.text("Select on your drawing", selector.x, selector.y, selector_size.x, selector_size.y);
+    textSize(15);
+    fill( 0,0,0);
+    text("Select on your drawing", selector.x, selector.y, selector_size.x, selector_size.y);
   }
-  pizza.endDraw();
+  
 }
 
 boolean selector_click( int x, int y)
@@ -348,76 +328,53 @@ void select_col( int x, int y)
 
 void col_button_draw()
 {
-  pizza.beginDraw();
   // draw col changer
-  pizza.fill( paint);
-  pizza.stroke(0,0,80);
-  pizza.strokeWeight(1);
-  pizza.ellipse( col_button.x, col_button.y, col_button_R, col_button_R);
-  
-  // white button
-  pizza.fill( color( hue(paint)  ,  s, bright ) );
-  pizza.noStroke();
-  pizza.ellipse(bright_button.x, bright_button.y, col_button_R /2, col_button_R /2 );
-  
-  // black button
-  pizza.noStroke();
-  pizza.fill( color( hue(paint)  ,  s, dark ) );
-  pizza.ellipse(dark_button.x, dark_button.y, col_button_R /2, col_button_R /2 );
-  
-  pizza.textSize(30);
-  pizza.fill( 0,0,10 );
-  pizza.text( "color", col_button.x -col_button_R +4, 
-          col_button.y-20, col_button_R*2, col_button_R*2 );
-  pizza.endDraw();
+  fill( paint);
+  stroke(0,0,80);
+  strokeWeight(1);
+  ellipse( col_button.x, col_button.y, col_button_R, col_button_R);
 }
  
 void clear_button_draw()
 { 
-  pizza.beginDraw();
   // draw white clear button
-  pizza.fill(0,0,100);
-  pizza.noStroke();
-  pizza.rect( white_button.x, white_button.y, clear_button_size.x, clear_button_size.y );
+  fill(0,0,100);
+  noStroke();
+  rect( white_button.x, white_button.y, clear_button_size.x, clear_button_size.y );
 
   // draw black clear button
-  pizza.fill(0,0,0);
-  pizza.strokeWeight(3);
-  pizza.stroke(0,0,100);
-  pizza.rect( black_button.x, black_button.y, clear_button_size.x, clear_button_size.y );
+  fill(0,0,0);
+  strokeWeight(3);
+  stroke(0,0,100);
+  rect( black_button.x, black_button.y, clear_button_size.x, clear_button_size.y );
   
   // paint col
-  pizza.fill(paint);
-  pizza.stroke(0,0,80);
-  pizza.strokeWeight(1);
-  pizza.rect( fill_button.x, fill_button.y, clear_button_size.x, clear_button_size.y );
+  fill(paint);
+  stroke(0,0,80);
+  strokeWeight(1);
+  rect( fill_button.x, fill_button.y, clear_button_size.x, clear_button_size.y );
   
   // label 
-  pizza.textSize( 17 );
-  pizza.fill(0,0,100);
-  pizza.text( "Whipe surface with color", black_button.y, white_button.y, 100,100 );
-  
-  pizza.endDraw();
+  textSize( 17 );
+  fill(0,0,100);
+  text( "Whipe surface with color", black_button.y, white_button.y, 100,100 );
 }
  
 void slider_draw()
 {
-  pizza.beginDraw();
   // draw slider
-  pizza.stroke(YE);
-  pizza.strokeWeight(2);
-  pizza.fill(0);
-  pizza.rect(slider_pos.x, slider_pos.y, slider_size.x+wheelmax, slider_size.y );
-  pizza.fill(YE);
-  pizza.noStroke();
-  pizza.ellipse(wheelx, slider_pos.y + slider_size.y/2, wheel, wheel);
+  stroke(YE);
+  strokeWeight(2);
+  fill(0);
+  rect(slider_pos.x, slider_pos.y, slider_size.x+wheelmax, slider_size.y );
+  fill(YE);
+  noStroke();
+  ellipse(wheelx, slider_pos.y + slider_size.y/2, wheel, wheel);
   
   // label
-  pizza.textSize(17);
-  pizza.fill(YE);
-  pizza.text("Change Brush Size", slider_pos.x, height -slider_size.y -15*2);
-  
-  pizza.endDraw();
+  textSize(17);
+  fill(YE);
+  text("Change Brush Size", slider_pos.x, height -slider_size.y -15*2);
 }
 
 boolean clear_screen( int x, int y)
@@ -455,7 +412,6 @@ boolean clear_screen( int x, int y)
 
 boolean col_changer( int x, int y)
 {
-  // random button
   if( abs( col_button.x -x) < col_button_R && abs( col_button.y -y) < col_button_R)
   {
     paint = color( random(0, 360)  ,  s*random(0.8, 1.2), b*random(0.8, 1.2) );
@@ -464,29 +420,6 @@ boolean col_changer( int x, int y)
     clear_button_draw();
     return true;
   }
-  
-  //bright button
-  if( abs( bright_button.x -x)  <  col_button_R/2 
-      && abs( bright_button.y -y)  <  col_button_R/2 )
-  {
-    paint = color( hue(paint)  ,  s, bright );
-    
-    col_button_draw();
-    clear_button_draw();
-    return true;
-  }
-  
-  //dark button
-    if( abs( dark_button.x -x)  <  col_button_R/2 
-      && abs( dark_button.y -y)  <  col_button_R/2 )
-  {
-    paint = color( hue(paint)  ,  s, dark );
-    
-    col_button_draw();
-    clear_button_draw();
-    return true;
-  }
-  
   return false;
 }
 
@@ -500,18 +433,17 @@ boolean slider_click( int x, int y)
     wheel = (int)( map( wheelx, slider_pos.x,  slider_pos.x+slider_size.x, wheelmin, wheelmax)  );
     
     // redraw slider
-    pizza.beginDraw();
-    pizza.stroke(YE);
-    pizza.strokeWeight(2);
-    pizza.fill(0);
-    pizza.rect(slider_pos.x, slider_pos.y, slider_size.x +wheelmax, slider_size.y );
-    pizza.fill(YE);
-    pizza.noStroke();
-    pizza.ellipse(wheelx, slider_pos.y + slider_size.y/2, wheel, wheel);
-    pizza.endDraw();
+    stroke(YE);
+    strokeWeight(2);
+    fill(0);
+    rect(slider_pos.x, slider_pos.y, slider_size.x +wheelmax, slider_size.y );
+    fill(YE);
+    noStroke();
+    ellipse(wheelx, slider_pos.y + slider_size.y/2, wheel, wheel);
     return true;
   }
   else
     return false;
 }
+
 

@@ -28,8 +28,9 @@ void setup() {
   
   pizza = createGraphics(width, height);
   
+  pizza.colorMode(HSB, 360, 100, 100);
   colorMode(HSB, 360, 100, 100);
-  ellipseMode(RADIUS);
+  pizza.ellipseMode(RADIUS);
   
   Cbackg = color(0,0,0);
   BL = color( 242,80,95);
@@ -98,11 +99,12 @@ void sym_pressed()
   rel_angle.set( mouseX -circle.x, mouseY -circle.y);
   prev = rel_angle.get();
   
-  strokeWeight(wheel);
-  stroke(paint);
+  pizza.beginDraw();
+  pizza.strokeWeight(wheel);
+  pizza.stroke(paint);
   for( int a=0; a< slices; a ++)
   {
-    point(circle.x +rel_angle.x, circle.y +rel_angle.y);
+    pizza.point(circle.x +rel_angle.x, circle.y +rel_angle.y);
     //rel_angle.rotate( 2*PI /slices);
     //prev.rotate( 2*PI /slices);
     rel_angle.set( manual_rotate( rel_angle, 2*PI /slices) );
@@ -111,6 +113,7 @@ void sym_pressed()
   
   prev = rel_angle.get();
   
+  pizza.endDraw();
 }
 
 
@@ -119,11 +122,12 @@ void sym_dragged()
   
   rel_angle.set( mouseX -circle.x, mouseY -circle.y);
   
-  strokeWeight(wheel);
-  stroke(paint);
+  pizza.beginDraw();
+  pizza.strokeWeight(wheel);
+  pizza.stroke(paint);
   for( int a=0; a < slices; a++)
   {
-    line(circle.x +rel_angle.x, circle.y +rel_angle.y,
+    pizza.line(circle.x +rel_angle.x, circle.y +rel_angle.y,
           circle.x +prev.x, circle.y +prev.y);
     //prev.rotate( 2*PI /slices);
     //rel_angle.rotate( 2*PI /slices);
@@ -132,6 +136,7 @@ void sym_dragged()
   }
   
   prev = rel_angle.get();
+  pizza.endDraw();
 }
 
 
@@ -165,7 +170,7 @@ void sym_setup( )
   
   
   draw_all();
-
+  //eo sym setup
 }
 
 void draw_all()
@@ -193,7 +198,7 @@ void draw_surface()
   pizza.strokeWeight(3);
   pizza.fill(Cbackg);
   pizza.stroke(0,0,90);
-  pizza.ellipse( circle.x, circle.y, circle_R, circle_R );
+  pizza.ellipse( circle.x, circle.y, 2*circle_R, 2*circle_R );
   
   //draw slices
   vec.set( 0, -circle_R);
@@ -353,17 +358,17 @@ void col_button_draw()
   pizza.fill( paint);
   pizza.stroke(0,0,80);
   pizza.strokeWeight(1);
-  pizza.ellipse( col_button.x, col_button.y, col_button_R, col_button_R);
+  pizza.ellipse( col_button.x, col_button.y, 2*col_button_R, 2*col_button_R);
   
   // white button
   pizza.fill( color( hue(paint)  ,  s, bright ) );
   pizza.noStroke();
-  pizza.ellipse(bright_button.x, bright_button.y, col_button_R /2, col_button_R /2 );
+  pizza.ellipse(bright_button.x, bright_button.y, 2*col_button_R /2, 2*col_button_R /2 );
   
   // black button
   pizza.noStroke();
   pizza.fill( color( hue(paint)  ,  s, dark ) );
-  pizza.ellipse(dark_button.x, dark_button.y, col_button_R /2, col_button_R /2 );
+  pizza.ellipse(dark_button.x, dark_button.y, 2*col_button_R /2, 2*col_button_R /2 );
   
   pizza.textSize(30);
   pizza.fill( 0,0,10 );
@@ -410,7 +415,7 @@ void slider_draw()
   pizza.rect(slider_pos.x, slider_pos.y, slider_size.x+wheelmax, slider_size.y );
   pizza.fill(YE);
   pizza.noStroke();
-  pizza.ellipse(wheelx, slider_pos.y + slider_size.y/2, wheel, wheel);
+  pizza.ellipse(wheelx, slider_pos.y + slider_size.y/2, 2*wheel, 2*wheel);
   
   // label
   pizza.textSize(17);
@@ -507,11 +512,29 @@ boolean slider_click( int x, int y)
     pizza.rect(slider_pos.x, slider_pos.y, slider_size.x +wheelmax, slider_size.y );
     pizza.fill(YE);
     pizza.noStroke();
-    pizza.ellipse(wheelx, slider_pos.y + slider_size.y/2, wheel, wheel);
+    pizza.ellipse(wheelx, slider_pos.y + slider_size.y/2, 2*wheel, 2*wheel);
     pizza.endDraw();
     return true;
   }
   else
     return false;
+}
+
+void keyPressed()
+{
+  if(key == 's')
+  {
+  save_pic("tommy", "abc");  
+ 
+  }
+  
+}
+
+void save_pic(String user_id, String img_id)
+{
+  image(pizza,0,0);
+  saveFrame("/gallery/pizzasketch_" + user_id + "_" + img_id);
+  
+  
 }
 
