@@ -18,12 +18,13 @@ int brush;
 
 int s,b;
 
-int slices = 6;
+int slices = 4;
 int edding;
 
 
 void setup() {
-  size(800,700);
+  //size(800,700);
+  size(displayWidth, displayHeight);
   frameRate(50);
   
   pizza = createGraphics(width, height);
@@ -535,7 +536,8 @@ void keyPressed()
 {
   if(key == 's')
   {
-  save_pic("tommy", "abc1");  
+  //save_pic("tommy", "abc1");
+    save_pic( str(day()), str(month()) );   
  
   }
   
